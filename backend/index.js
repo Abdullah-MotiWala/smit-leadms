@@ -1,16 +1,18 @@
-const http = require("http");
-console.log("abcdef");
+const express = require("express")
+const app = express()
+const router = require("./router/index.router.js")
+const bodyParser = require('body-parser')
 
-const server = http.createServer((req, res) => {
-  console.log(req.method);
-  if (req.method === "PUT") {
-    res.statusCode = 201;
-    res.end("Walikum Salam");
-  }
-  if (req.method === "GET") {
-    res.statusCode = 200;
-    res.end("Walikum Salam");
-  }
+
+// app.use(bodyParser.json())
+app.use("/api",router)
+
+app.get("/", (req, res) => {
+  res.send("Hello World")
 })
 
-server.listen(5000);
+
+
+app.listen(5000, () => {
+  console.log("app started")
+})

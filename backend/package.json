@@ -7,7 +7,11 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start:dev":"node --watch index.js",
+    "start:dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "express": "^5.2.1"
   }
 }
