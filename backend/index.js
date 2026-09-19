@@ -4,7 +4,7 @@ const router = require("./router/index.router.js")
 const bodyParser = require('body-parser')
 
 
-// app.use(bodyParser.json())
+app.use(bodyParser.json())
 app.use("/api",router)
 
 app.get("/", (req, res) => {
