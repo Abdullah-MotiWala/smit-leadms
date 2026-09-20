@@ -1,6 +1,11 @@
 const { Router } = require("express");
-const bodyParser = require("../lib/middlewares/bodyparse.middleware.js");
+const validationMiddleware = require("../lib/middlewares/validation.middlerware.js");
+const { craeteLeadSchema } = require("../validations/lead.validation.js");
+const jwt = require("jsonwebtoken");
 const router = Router();
+
+
+const leads = [];
 
 router.get("/", (req, res) => {
   console.log("GET Lead");
@@ -11,7 +16,17 @@ router.get("/all", (req, res) => {
   res.status(200).send("Get All Leads");
 });
 
-router.post("/", (req, res) => {
+router.post("/", validationMiddleware(craeteLeadSchema), (req, res) => {
+  const token = req.headers.authorization;
+  let decodedData;
+  try {
+    decodedData = jwt.verify(token, "S3CR3T");
+  } catch (error){
+    console.log(error)
+    res.status(401).send("Please login again");
+    return;
+  }
+  console.log(decodedData);
   // business logic here
   console.log("Create Lead");
   console.log(req.body, "===body");
