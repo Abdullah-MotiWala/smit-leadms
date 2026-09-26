@@ -1,9 +1,8 @@
 const { Router } = require("express");
 const validationMiddleware = require("../lib/middlewares/validation.middlerware.js");
 const { craeteLeadSchema } = require("../validations/lead.validation.js");
-const jwt = require("jsonwebtoken");
+const authMiddleware = require("../lib/middlewares/auth.middleware.js");
 const router = Router();
-
 
 const leads = [];
 
@@ -16,20 +15,8 @@ router.get("/all", (req, res) => {
   res.status(200).send("Get All Leads");
 });
 
-router.post("/", validationMiddleware(craeteLeadSchema), (req, res) => {
-  const token = req.headers.authorization;
-  let decodedData;
-  try {
-    decodedData = jwt.verify(token, "S3CR3T");
-  } catch (error){
-    console.log(error)
-    res.status(401).send("Please login again");
-    return;
-  }
-  console.log(decodedData);
-  // business logic here
-  console.log("Create Lead");
-  console.log(req.body, "===body");
+router.post("/", authMiddleware, validationMiddleware(craeteLeadSchema), (req, res) => {
+  const data = { ...req.body, userId: req.user.id };
   res.status(201).send("Create Lead");
 });
 router.put("/", (req, res) => {
