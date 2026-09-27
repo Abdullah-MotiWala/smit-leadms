@@ -9,7 +9,6 @@ let db;
 async function connectDB() {
   await client.connect();
   db = client.db("app");
-  console.log(db,"===db")
   console.log("===Database Connected");
 }
 
