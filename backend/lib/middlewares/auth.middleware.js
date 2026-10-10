@@ -2,9 +2,13 @@ const jwt = require("jsonwebtoken");
 
 function authMiddleware(req, res, next) {
   const token = req.headers.authorization;
+  console.log(token,"===token")
+  if (!token) {
+    return res.status(401).send("Please login again");
+  }
   let decodedData;
   try {
-    decodedData = jwt.verify(token,process.env.SECRET_KEY);
+    decodedData = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decodedData;
   } catch (error) {
     console.log(error);

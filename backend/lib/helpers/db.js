@@ -1,19 +1,11 @@
 require("dotenv").config();
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 
-const dns = require("node:dns");
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
-
-const client = new MongoClient(process.env.DB_URI);
-let db;
 async function connectDB() {
-  await client.connect();
-  db = client.db("app");
-  console.log("===Database Connected");
+  await mongoose.connect(process.env.DB_URI);
+  console.log("Database Connected");
 }
 
-function getDB(){
-    return db;
-}
-
-module.exports = { connectDB, getDB };
+module.exports = {
+  connectDB,
+};
