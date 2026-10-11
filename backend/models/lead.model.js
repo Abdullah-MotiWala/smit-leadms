@@ -36,6 +36,10 @@ const leadSchema = new Schema(
       enum: ["PENDING", "REPLIED", "REJECTED"],
       default: "PENDING",
     },
+    createdBy: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,
