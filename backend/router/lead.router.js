@@ -2,17 +2,22 @@ const { Router } = require("express");
 const validationMiddleware = require("../lib/middlewares/validation.middlerware.js");
 const { craeteLeadSchema } = require("../validations/lead.validation.js");
 const authMiddleware = require("../lib/middlewares/auth.middleware.js");
-const { create } = require("../controller/lead.controller.js");
+const {
+  create,
+  getAllUserLeads,
+  getOneLead,
+  getAllUserLeadsAdmin,
+} = require("../controller/lead.controller.js");
+const adminMiddleware = require("../lib/middlewares/admin.middleware.js");
 const router = Router();
 
-router.get("/", (req, res) => {
-  console.log("GET Lead");
-  res.status(200).send("Get Lead");
-});
-router.get("/all", (req, res) => {
-  console.log("GET All Lead");
-  res.status(200).send("Get All Leads");
-});
+router.get("/all", authMiddleware, getAllUserLeads);
+router.get(
+  "/all-admin",
+  authMiddleware,
+  adminMiddleware,
+  getAllUserLeadsAdmin,
+);
 
 router.post(
   "/",
@@ -30,4 +35,5 @@ router.delete("/", (req, res) => {
   res.status(201).send("Get Lead");
 });
 
+router.get("/:id", authMiddleware, getOneLead);
 module.exports = { leadRouter: router };

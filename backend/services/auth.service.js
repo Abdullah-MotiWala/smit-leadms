@@ -27,8 +27,11 @@ const getUserForLogin = async (body, res) => {
   const isPasswordMatched = await bcrypt.compare(password, user.password);
   if (!isPasswordMatched) res.status(400).send("Credentials not found");
 
-  console.log(user.id, user._id, "===login")
-  const token = jwt.sign({ email, id: user.id }, process.env.SECRET_KEY);
+  console.log(user.id, user._id, "===login");
+  const token = jwt.sign(
+    { email, id: user.id, role: user.role },
+    process.env.SECRET_KEY,
+  );
   res.status(200).send({ token });
 };
 

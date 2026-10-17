@@ -15,6 +15,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      required: true,
+      enum: ["MANAGER", "ADMIN"],
+      default: "MANAGER",
+    },
   },
   {
     timestamps: true,
@@ -22,4 +28,5 @@ const userSchema = new Schema(
 );
 
 const User = model("user", userSchema);
+User.index({ email, role });
 module.exports = User;

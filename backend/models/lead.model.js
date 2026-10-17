@@ -2,9 +2,6 @@ const { model, Schema } = require("mongoose");
 
 const leadSchema = new Schema(
   {
-    createdBy: {
-      type: String,
-    },
     email: {
       type: String,
       required: true,
@@ -38,8 +35,13 @@ const leadSchema = new Schema(
     },
     createdBy: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
+    createdBy2: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   {
     timestamps: true,
